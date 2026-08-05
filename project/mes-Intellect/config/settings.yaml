@@ -1,0 +1,23 @@
+project:
+  name: semiconductor-yield-platform
+  version: 0.1.0
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  silver: data/silver
+  gold: data/gold
+
+database:
+  url: sqlite:///data/gold/yield.db
+
+mes:
+  log_pattern: "logs/*.log"
+
+npi:
+  column_mapping:
+    SampleID: ["Sample ID", "LotID", "WaferID"]
+    Value: ["Value", "Measurement"]
+
+wafer_map:
+  defect_types: ["Ring", "Scratch", "Cluster", "Random"]

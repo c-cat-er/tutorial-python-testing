@@ -1,0 +1,97 @@
+Project/
+├── .gitignore
+├── .github/
+│   └── workflows/                  # 自動化 (GitHub Actions)
+│       └── ci-cd.yml               # 自動化工作流程設定檔
+├── .env.example                    # 環境變數範本（機台 IP、port、校正參數等）
+├── README.md
+├── LICENSE
+├── pyproject.toml                  # 現代推薦 (取代 setup.py)，含依賴、tool 配置 (ruff, mypy, pytest 等)
+├── requirements-dev.txt            # 開發/測試依賴
+├── requirements.txt                # （可選）運行時依賴，或用 pyproject.toml + uv/poetry
+├── config/                         # 設定檔 (YAML/JSON/TOML)
+│   ├── settings.yaml
+│   ├── probe_configs/              # 不同探針卡型號配置
+│   │   ├── probe_model_A.yaml
+│   │   └── ...
+│   └── logging.yaml
+├── src/
+│   └── probe_integration/          # 主套件名稱 (import 時使用)
+│       ├── __init__.py
+│       ├── main.py                 # 程式入口 (CLI / FastAPI / GUI 啟動）
+│       │
+│       ├── core/                   # 核心共用（非業務特定）
+│       │   ├── __init__.py
+│       │   ├── config.py
+│       │   ├── logging.py
+│       │   ├── exceptions.py
+│       │   └── utils.py
+│       │
+│       ├── hardware/               # 硬體整合層（探針、儀器、通訊）
+│       │   ├── __init__.py
+│       │   ├── probe_card.py       # 探針卡控制、pin map、校正
+│       │   ├── instruments/        # 各儀器 driver（PyVISA、serial 等）
+│       │   │   ├── prober.py
+│       │   │   ├── tester.py
+│       │   │   └── power_supply.py
+│       │   └── communication.py    # Modbus、TCP/IP、GPIB 等
+│       │
+│       ├── data_acquisition/       # 資料蒐集與即時處理
+│       │   ├── __init__.py
+│       │   ├── collector.py
+│       │   └── parsers.py
+│       │
+│       ├── analysis/               # RD 分析、演算法、統計
+│       │   ├── __init__.py
+│       │   ├── yield_analysis.py
+│       │   ├── electrical_test.py
+│       │   └── models/             # 模型或 ML（若有）
+│       │
+│       ├── database/               # 資料儲存（SQLAlchemy / SQLite / PostgreSQL）
+│       │   ├── __init__.py
+│       │   ├── models.py           # ORM models（wafer、die、test results）
+│       │   ├── repository.py
+│       │   └── migrations/         # Alembic（若用）
+│       │
+│       ├── api/                    # 若有 Web/REST API（FastAPI 推薦）
+│       │   ├── __init__.py
+│       │   ├── routers/
+│       │   ├── schemas.py          # Pydantic models
+│       │   └── dependencies.py
+│       │
+│       ├── cli/                    # 命令列工具（typer / click）
+│       │   └── commands.py
+│       │
+│       └── utils/                  # 通用工具（非 core）
+│           ├── __init__.py
+│           ├── file_io.py
+│           └── calibration.py
+│
+├── tests/                          # 測試（鏡像 src 結構）
+│   ├── __init__.py
+│   ├── unit/
+│   ├── integration/                # 硬體模擬測試很重要
+│   ├── e2e/                        # 端到端（若適用）
+│   └── conftest.py                 # pytest fixtures（mock 儀器）
+│
+├── scripts/                        # 一次性或維護腳本（非核心業務）
+│   ├── calibrate_probe.py
+│   ├── data_export.py
+│   └── backup_db.py
+│
+├── data/                           # 資料目錄（.gitignore raw 大檔）
+│   ├── raw/                        # 原始量測資料（.csv, .tdms 等）
+│   ├── processed/                  # 處理後資料
+│   └── reference/                  # 參考檔、golden sample
+│
+├── logs/                           # 執行日誌（.gitignore 或定期清理）
+├── docs/                           # 文件
+│   ├── architecture.md
+│   ├── hardware_integration.md     # 隔離儀器相依
+│   └── api.md
+│
+├── notebooks/                      # 實驗紀錄
+│   └── probe_calibration_01.ipynb  # 探針校正實驗紀錄
+│
+└── artifacts/                      # 建置輸出、報告(CI 產生，可 .gitignore)
+    └── reports/

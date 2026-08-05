@@ -1,0 +1,19 @@
+# 封鎖所有原始與處理後的巨量測試數據
+data/raw/
+data/processed/
+data/features/
+data/merged/
+*.db
+*.pkl
+*.parquet
+*.log
+
+# 封鎖系統日誌與實驗筆記
+logs/
+notebooks/
+.env
+.venv/
+env/
+__pycache__/
+*.egg-info/
+.git/

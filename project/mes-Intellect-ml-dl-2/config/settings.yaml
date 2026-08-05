@@ -1,0 +1,49 @@
+project:
+    name: semiconductor-yield-platform
+    version: 0.1.0
+
+paths:
+    raw: data/raw
+    bronze: data/bronze
+    silver: data/silver
+    gold: data/gold
+
+database:
+    url: sqlite:///data/gold/yield.db
+
+mes:
+    log_pattern: "logs/*.log"
+
+npi:
+    column_mapping:
+        SampleID: ["sample_id", "Sample ID", "SampleID"]
+        value: ["value"]
+    spec_limits:
+        CD_LINEWIDTH: { "USL": 0.095, "LSL": 0.075 }
+        THICKNESS: { "USL": 255.0, "LSL": 235.0 }
+        OVERLAY_X: { "USL": 0.030, "LSL": -0.030 }
+
+wafer_map:
+    defect_types: ["Ring", "Scratch", "Cluster", "Random"]
+
+dnn_config:
+    seed: 42069
+    run_optuna: true
+    n_epochs: 200
+    batch_size: 128
+    early_stop: 30
+    optimizer: "Adamax"
+    optim_hparas:
+        lr: 0.002
+        weight_decay: 0.0001
+    hidden_dims: [64, 32, 16]
+    dropout_rates: [0.3, 0.2, 0.1]
+    save_path: "data/gold/models/yield_dnn_best.pth"
+
+wafer_classification:
+    num_classes: 4
+    defect_types: ["Ring", "Scratch", "Cluster", "Random"]
+    img_size: 128
+    batch_size: 64
+    epochs: 40
+    threshold: 0.85

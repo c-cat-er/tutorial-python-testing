@@ -1,0 +1,91 @@
+Project/
+├── README.md
+├── .gitignore
+├── .env.example                        # (fi)環境變數範本
+├── pyproject.toml                      # (fi)專案依賴與建置設定 (取代傳統 requirements.txt)
+├── Dockerfile                          # (fi)容器化建置
+├── docker-compose.yml                  # (fi)統一容器化運行
+├── config/                             # 設定
+│   ├── settings.yaml                   # (fi)全局
+│   ├── logging.yaml                    # (fi)
+│   └── probe_configs/                  # 探針卡設定
+│       └── default.yaml                # (fi)
+├── src/
+│   ├── __init__.py
+│   ├── main.py                         # (fi)Master Orchestrator (總指揮)
+│   ├── common/                         # 共用層
+│   │   ├── __init__.py
+│   │   ├── data_models.py              # (fi)Traceability ID、統一資料結構
+│   │   ├── utils.py                    # (fi)工具函數 (校正、檔案、共用)
+│   │   └── database.py                 # (fi)資料存取
+│   ├── acquisition/                    # 資料蒐集與解析
+│   │   ├── __init__.py
+│   │   ├── hardware.py                 # (fi)探針卡 + 所有儀器整合(instruments、communication、probe_card)
+│   │   └── loader.py                   # (fi)統一檔案/MES/NPI 載入
+│   ├── mes_log/                        # 專案一
+│   │   ├── __init__.py
+│   │   ├── parser.py                   # (fi) MES Log 解析
+│   │   └── cleaner.py                  # (fi) MES Log 清理
+│   ├── npi_yield/                      # 良率分析 (專案二)
+│   │   ├── __init__.py
+│   │   └── pipeline.py                 # (fi)整合流程
+│   ├── wafer_map/                      # (幾何 + ML) 缺陷分析 (專案三 + 四 + 六 + 七)
+│   │   ├── __init__.py
+│   │   ├── geometry.py                 # 空間幾何特徵 (專案三)
+│   │   ├── feature_extractor.py        # (fi)特徵提取
+│   │   ├── classifier.py               # (fi) ML分類控制台、異常檢測與預警控制流水線
+│   │   └── dl_models.py                # (fi) 專案三 ResNet、專案六 AutoEncoder/VAE 模型
+│   ├── yield_predictor/                # 良率預測 (專案五)
+│   │   ├── __init__.py
+│   │   ├── predictor.py                # (fi)XGBoost + SHAP
+│   │   └── dnn_predictor.py            # (fi)PyTorch + Optuna 預測器 (專案一)
+│   └── analysis/                       # 跨專案整合分析
+│       ├── __init__.py
+│       ├── correlation.py              # (fi)Probe ↔ Final Test 關聯分析
+│       ├── reporting.py                # (fi)自動報告電性總結與警示
+│       └── statistical.py              # (fi)統計分析
+├── tests/
+│   ├── test_acquisition.py             # 資料擷取測試
+│   ├── test_wafer_map.py               #
+│   ├── test_predictor.py               #
+│   └── conftest.py                     # (fi)單元測試及配置檔
+├── scripts/                            # 快速腳本
+│   ├── run_orchestrator.py             # (fi)一鍵啟動全流程
+│   ├── calibrate.py                    # 校正
+│   └── generate_report.py              # (fi)
+├── data/
+│   ├── reference/                      # 參考資料，存放專案中用到的靜態參考資料 (不常變動的設定與對照表)。
+│   │   ├── probe_card_specs.yaml       # 探針卡規格設定
+│   │   └── bin_code_mapping.csv        # # (需要修改檔名?) Bin Code (良率分類碼) 對照表
+│   ├── raw/                            # (fi)
+│   │   ├── mes_logs/
+│   │   │   ├── mes_20260720_LOT001.log
+│   │   │   └── ...
+│   │   ├── npi/
+│   │   │   ├── npi_ctq_20260720_LOT001.csv
+│   │   │   └── ...
+│   │   └── wafer_maps/
+│   │       ├── wafermap_F12_20260720_LOT001_W01.csv
+│   │       ├── ...
+│   │       ├── wafermap_F8_20260720_LOT001_W01.csv
+│   │       └── ...
+│   ├── processed/                      # (fi)處理後資料
+│   │   ├── mes_cleaned.parquet         # (需要修改檔名?)
+│   │   ├── npi_cleaned.parquet         # (需要修改檔名?)
+│   │   └── wafer_processed.parquet     # (需要修改檔名?)
+│   ├── features/                       # (fi)整合特徵層
+│   │   ├── features.parquet            # (需要修改檔名?) 合併後的特徵表 (含 Traceability ID)
+│   │   └── correlation_matrix.csv      # (需要修改檔名?)
+│   └── merged/                         # (fi)預測與分析結果
+│       ├── models/
+│       │   └── yield_predictor.pkl     # (需要修改檔名?)
+│       ├── predictions/
+│       │   └── lot_yield_forecast.csv  # (需要修改檔名?)
+│       ├── report.csv                  # (需要修改檔名?)
+│       └── yield.db                    # (需要修改檔名?) SQLite 資料庫
+├── logs/                               # 系統執行紀錄
+├── notebooks/
+│   └── experiments.ipynb               # 實驗筆記本
+└── docs/
+    ├── architecture_small.tree
+    └── notes.md                        # 筆記

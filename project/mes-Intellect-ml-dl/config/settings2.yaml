@@ -1,0 +1,27 @@
+data_lake:
+  raw: "data/raw"
+  bronze: "data/bronze"
+  silver: "data/silver"
+  gold: "data/gold"
+
+traceability:
+  id_format: "{LotID}_{WaferID}_{DieID}"
+
+mes:
+  log_dir: "data/raw/mes_logs"
+  output_dir: "data/bronze/mes_cleaned"
+
+npi:
+  raw_dir: "data/raw/npi_measurements"
+  processed_dir: "data/silver/npi_processed"
+  spec_limits:
+    Thickness: {USL: 105.0, LSL: 95.0}
+    Refractive_Index: {USL: 1.55, LSL: 1.45}
+
+wafer_map:
+  raw_dir: "data/raw/wafer_maps"
+  processed_dir: "data/silver/wafer_features"
+
+predict:
+  model_dir: "data/gold/models"
+  output_dir: "data/gold/predictions"

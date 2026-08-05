@@ -1,0 +1,49 @@
+
+├── .gitignore
+├── README.md
+├── requirements.txt
+│
+├── 01_python_data_processing/     # 一、Python 基礎與資料處理能力
+│   ├── 1_1_lang_fundamentals.ipynb      # Python 進階核心語法與例外處理
+│   ├── 1_2_oop_and_pydantic.ipynb       # 物件導向程式設計與 Pydantic 資料模型
+│   ├── 1_3_numpy_and_pandas.ipynb       # NumPy 矩陣轉換與 Pandas 日誌清洗
+│   └── 1_4_regex_log_parser.ipynb       # 正規表達式半導體日誌解析器
+│
+├── 02_statistics_and_spc/         # 二、統計與製程品質管制（半導體特有）
+│   ├── 2_1_spc_charts.ipynb             # SPC 過程控制：X-bar R 管制圖與 Cpk/Ppk 計算
+│   ├── 2_2_anova_hypothesis_test.ipynb  # 變異數分析與假設檢定：跨機台差異判斷
+│   └── 2_3_outlier_detection.ipynb      # 統計離群值處理：Z-score 與 IQR 演算法
+│
+├── 03_database_data_modeling/    # 三、資料庫與資料模型設計
+│   ├── 3_1_sql_sqlalchemy_orm.ipynb     # SQL 基礎查詢與 SQLAlchemy ORM 建表邏輯
+│   ├── 3_2_pydantic_validation.ipynb    # Pydantic 資料驗證與多來源欄位標準化對齊
+│   └── 3_3_time_series_parquet_io.ipynb # 設備時間序列 Log 處理與 Parquet 大數據讀寫優化
+│
+├── 04_machine_learning_core/     # 四、機器學習核心
+│   ├── 4_1_tabular_ml_models.ipynb       # 表格資料 ML：XGBoost/隨機森林良率預測與特徵重要性
+│   ├── 4_2_anomaly_detection.ipynb       # 異常檢測：自動編碼器（ConvAutoEncoder）與孤立森林
+│   └── 4_3_spc_ml_alert_integration.ipynb # SPC 與 ML 整合：預測結果轉資料庫警報狀態設計
+│   └── 4_4_model_evaluation_and_explainable_ai.ipynb  # 模型評估與可解釋性 AI（SHAP 歸因與混淆矩陣分析）
+│
+├── 05_deep_learning_wafer_map/   # 五、深度學習與電腦視覺（晶圓地圖相關）
+│   ├── 5_1_cnn_defect_classification.ipynb # 基礎 CNN 與 ResNet18 晶圓圖缺陷分類
+│   ├── 5_2_domain_adaptation_dann.ipynb    # 域適應（DaNN）：解決跨機台/跨批次數據分佈波動
+│   ├── 5_3_pseudo_label_distillation.ipynb # 半監督學：核心資料稀缺策略（偽標籤與知識蒸餾）
+│   └── 5_4_wafer_vae_generation.ipynb      # 生成式方法：WaferVAE 異常探測與稀有缺陷樣本擴增
+│
+├── 06_domain_knowledge_defects/  # 六、半導體製造流程與缺陷模式知識（領域知識）
+│   ├── 6_1_overlay_litho_notes.md         # 微影製程：疊加偏移（Overlay）與對齊異常筆記
+│   ├── 6_2_cd_linewidth_notes.md          # 關鍵尺寸（CD）：Recipe/Focus 異常與線簇缺陷筆記
+│   ├── 6_3_etch_and_particles_notes.md    # 蝕刻製程：過蝕/不足蝕與腔室粒子污染缺陷筆記
+│   ├── 6_4_equipment_aging_recipes_notes.md # 綜合分析：設備老化、參數食譜錯誤與真空溫度異常
+│   └── 6_5_operator_error_and_summary.md    # 操作錯誤與摘要筆記
+│
+├── 07_system_pipeline_design/    # 七、系統整合與 Pipeline 設計
+│   ├── 7_1_data_flow_architecture.md      # 資料流與架構設計：繪製專案資料流程圖
+│   ├── 7_2_main_control_settings.py       # 主流程控制：main.py 編排邏輯與 YAML 設定檔管理
+│   └── 7_3_scpi_hardware_interface.py     # 硬體介面控制：SCPI 指令與自動化儀器控制基礎
+│
+└── 08_mlops_engineering/         # 八、MLOps 與工程化能力（深度加分項）
+    ├── 8_1_docker_containerization.md     # Docker 環境封裝：解決產線部署環境衝突
+    ├── 8_2_git_version_control.md         # Git 版本控制：分支管理與 GitHub 專案維護維護
+    └── 8_3_airflow_pipeline_automation.md # Airflow 排程工具：日誌清理與每日良率報表自動化
