@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 
 
-# 1. 晶圓圖專用影像增強轉換 (Data Augmentation)
+# 晶圓圖專用影像增強轉換 (Data Augmentation)
 def get_wafer_transforms(img_size=128):
     # 訓練集：幾何隨機變形以防止過擬合
     train_tfm = transforms.Compose(
@@ -31,7 +31,7 @@ def get_wafer_transforms(img_size=128):
     return train_tfm, test_tfm
 
 
-# 2. 晶圓實體資料集 (承接 NumPy 2D 矩陣)
+# 晶圓實體資料集 (承接 NumPy 2D 矩陣)
 class WaferImageDataset(Dataset):
     def __init__(self, matrices: list, labels: list = None, transform=None):
         self.matrices = matrices
@@ -59,7 +59,7 @@ class WaferImageDataset(Dataset):
         )  # 模擬筆記中的 DatasetFolder 假標籤
 
 
-# 3. 半監督雙視圖橋樑資料集 (完整複用筆記黑科技)
+# 半監督雙視圖橋樑資料集 (完整複用筆記黑科技)
 class PseudoDataset(Dataset):
     def __init__(self, subset_images, labels):
         self.subset_images = subset_images
@@ -74,7 +74,7 @@ class PseudoDataset(Dataset):
         return img, label
 
 
-# 4. 晶圓缺陷 ResNet18 分類器
+# 晶圓缺陷 ResNet18 分類器
 class WaferResNetClassifier(nn.Module):
     def __init__(self, num_classes=4):
         super().__init__()
@@ -92,9 +92,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 # 專案六新加入：無監督異常檢測模型群 (對齊專案架構)
-
-
 class ConvAutoEncoder(nn.Module):
     def __init__(self):
         super().__init__()
@@ -200,9 +199,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+
 # 專案七新加入：領域自適應 (DaNN) 模型組件群
-
-
 class FeatureExtractor(nn.Module):
     def __init__(self):
         super().__init__()
@@ -269,7 +267,7 @@ class DomainClassifier(nn.Module):
         return self.layer(h)
 
 
-# 核心複用筆記強基線黑科技：盲測期先驗偏移迭代式校正技術
+# 核心複用筆記：盲測期先驗偏移迭代式校正技術
 def calibrate_iterative(logits, max_iter=5, eps=1e-8):
     """
     量化各類別在測試集中的分佈，施加 log 懲罰扣分，抑制過度預測偏好
@@ -284,8 +282,6 @@ def calibrate_iterative(logits, max_iter=5, eps=1e-8):
 
 
 # 專案八新加入：輕量化邊緣端學生模型 (MobileNet 核心)
-
-
 class DepthwiseSeparableConv(nn.Module):
     """深度可分離卷積：大幅降低晶圓端運算成本"""
 

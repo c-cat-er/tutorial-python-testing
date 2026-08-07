@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 logger = logging.getLogger(__name__)
 
 
-# === 1. Dataset 定義 (承接您已有的定義) ===
+# Dataset 定義 (承接您已有的定義)
 class SemiconductorDataset(Dataset):
     def __init__(
         self, X_df: pd.DataFrame, y_array: np.ndarray = None, mode="train", seed=42069
@@ -59,7 +59,7 @@ class SemiconductorDataset(Dataset):
         return len(self.data)
 
 
-# === 2. 模型架構 (NeuralNet) ===
+# 模型架構 (NeuralNet)
 class NeuralNet(nn.Module):
     def __init__(
         self, input_dim, hidden_dims=[64, 32, 16], dropout_rates=[0.3, 0.2, 0.1]
@@ -84,7 +84,7 @@ class NeuralNet(nn.Module):
         return self.criterion(pred, target)
 
 
-# === 3. 訓練與驗證 Loop ===
+# 訓練與驗證 Loop
 def train(tr_set, dv_set, model, config, device):
     opt_class = getattr(torch.optim, config.get("optimizer", "AdamW"))
     optimizer = opt_class(model.parameters(), **config.get("optim_hparas", {}))
@@ -128,7 +128,7 @@ def dev(dv_set, model, device):
     return total_loss / len(dv_set.dataset)
 
 
-# === 4. Optuna 核心目標優化函數 ===
+# Optuna 核心目標優化函數
 def objective(trial, tr_set, dv_set, device):
     lr = trial.suggest_float("lr", 1e-4, 1e-2, log=True)
     weight_decay = trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True)
@@ -162,7 +162,7 @@ def objective(trial, tr_set, dv_set, device):
     return val_loss
 
 
-# === 5. 兩階段自動化超參數搜尋與 K-Fold 訓練 ===
+# 兩階段自動化超參數搜尋與 K-Fold 訓練
 def run_optuna_two_stage(tr_set, dv_set, device, n_trials=30, n_splits=5):
     study = optuna.create_study(
         direction="minimize", pruner=MedianPruner(n_startup_trials=5, n_warmup_steps=10)
@@ -207,7 +207,7 @@ def run_optuna_two_stage(tr_set, dv_set, device, n_trials=30, n_splits=5):
     return best_kfold_models, top_trials
 
 
-# === 6. 主流水線整合介面 (供 main.py 調用) ===
+# 主流水線整合介面 (供 main.py 調用)
 def run_dnn_pipeline(X_features: pd.DataFrame, y_yield: np.ndarray, config: dict):
     device = "cuda" if torch.cuda.is_available() else "cpu"
 

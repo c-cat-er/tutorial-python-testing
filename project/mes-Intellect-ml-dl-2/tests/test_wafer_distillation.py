@@ -5,17 +5,17 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-# 假設這是您專案中的蒸餾損失函數
+# 假設這是專案中的蒸餾損失函數
 def distillation_loss(student_logits, teacher_logits, labels, T=4.0, alpha=0.5):
-    # 1. 計算硬標籤交叉熵損失
+    # 計算硬標籤交叉熵損失
     hard_loss = F.cross_entropy(student_logits, labels)
-    # 2. 計算軟標籤 KL 散度損失 (注意：KLDivLoss 的 input 需要是 log_softmax，target 是 softmax)
+    # 計算軟標籤 KL 散度損失 (注意：KLDivLoss 的 input 需要是 log_softmax，target 是 softmax)
     soft_loss = F.kl_div(
         F.log_softmax(student_logits / T, dim=1),
         F.softmax(teacher_logits / T, dim=1),
         reduction="batchmean",
     ) * (T**2)
-    # 3. 權重結合
+    # 權重結合
     return alpha * hard_loss + (1 - alpha) * soft_loss
 
 

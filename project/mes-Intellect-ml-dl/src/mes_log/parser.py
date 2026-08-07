@@ -4,7 +4,7 @@ from pathlib import Path
 
 from src.common.data_models import LogEntry
 
-# 💡 正規修正：重構 Regex，使其精準捕捉實體 Log 中的所有必要欄位
+# 重構 Regex，使其精準捕捉實體 Log 中的所有必要欄位
 LOG_PATTERN = re.compile(
     r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\|"
     r"(?P<lot_id>[^|]+)\|"

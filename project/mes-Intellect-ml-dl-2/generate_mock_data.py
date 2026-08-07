@@ -15,7 +15,7 @@ def create_mock_data():
     lots = ["LOT20260720001", "LOT20260721002", "LOT20260722003"]
     wafers = ["W01", "W02"]
 
-    # 2. 生成 100% 符合說明書 Page 38 範例的實體 .log 檔案
+    # 生成 100% 符合說明書 Page 38 範例的實體 .log 檔案
     for i, date_str in enumerate(dates):
         lot_id = lots[i]
         log_file = Path(f"data/raw/mes_logs/mes_{date_str.replace('-', '')}_LOT001.log")
@@ -78,9 +78,9 @@ def create_mock_data():
                         f"{t}|{lot_id}|{w_id}|{eq}|{proc}|{ev_type}|{msg}|{op}|{stat}\n"
                     )
 
-        print(f"  [已生成標準 MES Log] -> {log_file}")
+        print(f"[已生成標準 MES Log] -> {log_file}")
 
-    # 3. 生成 NPI 良率資料 (精準對齊說明書)
+    # 生成 NPI 良率資料 (精準對齊說明書)
     for i, date_str in enumerate(dates):
         lot_id = lots[i]
         npi_file = Path(f"data/raw/npi/npi_ctq_{date_str.replace('-', '')}_LOT001.csv")
@@ -105,9 +105,9 @@ def create_mock_data():
             f.write(
                 f"{lot_id},W02,S003,OVERLAY_X,0.015,um,{date_str} 09:20:33,{w02_yield},OP-004\n"
             )
-        print(f"  [已生成合格 NPI CSV] -> {npi_file}")
+        print(f"[已生成合格 NPI CSV] -> {npi_file}")
 
-    # 4. 生成 Wafer Map 資料 (F12 稀疏座標格式)
+    # 生成 Wafer Map 資料 (F12 稀疏座標格式)
     radius = 14
     center = 15.5
     for i, date_str in enumerate(dates):
@@ -136,7 +136,7 @@ def create_mock_data():
                             f.write(
                                 f"{lot_id},{w_id},{x},{y},{bin_code},{defect_type},{date_str} 10:05:00\n"
                             )
-            print(f"  [已生成合格 WaferMap] -> {wm_file}")
+            print(f"[已生成合格 WaferMap] -> {wm_file}")
 
     print("=== 生產線標準原始資料刷新完畢！ ===")
 
