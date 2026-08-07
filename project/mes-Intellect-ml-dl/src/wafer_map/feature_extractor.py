@@ -15,7 +15,7 @@ def extract_features_to_df(wafer_data_list):
         lid, wid = df_raw["lot_id"].iloc[0], df_raw["wafer_id"].iloc[0]
 
         # 執行原本的 OpenCV 輪廓與邊緣特徵工程
-        # (這裡簡化示意，維持您原有的 cv2 運算邏輯)
+        # (這裡簡化示意，維持原有的 cv2 運算邏輯)
         defect_ratio = float(np.random.uniform(0.01, 0.15))
         edge_ratio = float(np.random.uniform(0.05, 0.25))
         num_contours = int(np.random.randint(1, 10))

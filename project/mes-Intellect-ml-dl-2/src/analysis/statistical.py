@@ -33,7 +33,7 @@ def run_advanced_regression_analysis(X_features: pd.DataFrame, y_yield: pd.Serie
     model = sm.OLS(y_yield, X_with_constant)
     results = model.fit()
 
-    # 提取美光 YIE（良率整合工程師）最看重的參數
+    # 提取 YIE（良率整合工程師）最看重的參數
     return {
         "r_squared": float(results.rsquared),  # 模型解釋力
         "adjusted_r_squared": float(results.rsquared_adj),

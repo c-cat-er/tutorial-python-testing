@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 
-# 假設這是您專案中的迭代校正演算法
+# 假設這是專案中的迭代校正演算法
 def calibrate_iterative(prob_matrix, max_iter=5, eps=1e-10):
     # 防禦性檢查：確保輸入不是空矩陣
     if prob_matrix.size == 0:
@@ -53,13 +53,13 @@ class TestCalibrationConvergence(unittest.TestCase):
 
         calibrated = calibrate_iterative(random_probs, max_iter=5)
 
-        # 1. 斷言所有機率值都必須在合法的 [0, 1] 區間內
+        # 斷言所有機率值都必須在合法的 [0, 1] 區間內
         self.assertTrue(
             (calibrated >= 0).all() and (calibrated <= 1).all(),
             "校正後機率值超出 [0,1] 範圍！",
         )
 
-        # 2. 斷言每一列 (每片晶圓) 的類別機率加總必須精準等於 1 (容許浮點數微小誤差)
+        # 斷言每一列 (每片晶圓) 的類別機率加總必須精準等於 1 (容許浮點數微小誤差)
         row_sums = np.sum(calibrated, axis=1)
         np.testing.assert_allclose(
             row_sums, 1.0, rtol=1e-5, err_msg="校正後的機率橫列加總不等於 1！"

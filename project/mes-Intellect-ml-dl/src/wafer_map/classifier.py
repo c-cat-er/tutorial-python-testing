@@ -233,8 +233,6 @@ def detect_unknown_defects(wafer_matrices: list, config: dict):
 
 
 # 專案七
-
-
 def train_domain_adaptation(
     factory_a_matrices: list,
     factory_a_labels: list,
@@ -250,7 +248,7 @@ def train_domain_adaptation(
     """
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # 1. 領域特徵前處理管線 (Canny 邊緣對齊與單通道灰階對齊)
+    # 領域特徵前處理管線 (Canny 邊緣對齊與單通道灰階對齊)
     def preprocess_domain(matrices, use_canny=False):
         processed = []
         for m in matrices:
@@ -331,7 +329,7 @@ def train_domain_adaptation(
             opt_F.step()
             opt_C.step()
 
-    # 3. 跨廠區線上即時推論階段 (B 廠盲測推理)
+    # 跨廠區線上即時推論階段 (B 廠盲測推理)
     FE.eval()
     LP.eval()
     all_logits = []
@@ -340,7 +338,7 @@ def train_domain_adaptation(
             logits = LP(FE(tgt_data.to(device)))
             all_logits.append(logits.cpu().numpy())
 
-    # 👈 核心複用筆記最終秘密武器：利用 Iterative Calibration 對 B 新廠輸出進行分佈校正修正
+    # 核心複用筆記：利用 Iterative Calibration 對 B 新廠輸出進行分佈校正修正
     all_logits = np.concatenate(all_logits, axis=0)
     calibrated_preds = calibrate_iterative(all_logits, max_iter=5)
 
@@ -349,7 +347,6 @@ def train_domain_adaptation(
 
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-
 from wafer_map.dl_models import (
     WaferImageDataset,
     WaferStudentMobileNet,
@@ -378,7 +375,7 @@ def distill_teacher_to_student(
 
     # 實體化輕量學生模型
     student_model = WaferStudentMobileNet(num_classes=4).to(device)
-    teacher_model.eval()  # 👈 關鍵：鎖定並凍結專家模型
+    teacher_model.eval()  # 鎖定並凍結專家模型
     student_model.train()
 
     optimizer = torch.optim.Adam(student_model.parameters(), lr=1e-3)
@@ -397,10 +394,10 @@ def distill_teacher_to_student(
                 teacher_logits = teacher_model(imgs)
             student_logits = student_model(imgs)
 
-            # 1. 傳統硬損失 (Hard Loss)
+            # 傳統硬損失 (Hard Loss)
             loss_hard = criterion_hard(student_logits, hard_labels)
 
-            # 2. 知識蒸餾軟損失 (Soft Loss)
+            # 知識蒸餾軟損失 (Soft Loss)
             soft_teacher = F.softmax(teacher_logits / T, dim=-1)
             soft_student = F.log_softmax(student_logits / T, dim=-1)
             loss_soft = criterion_soft(soft_student, soft_teacher) * (T**2)

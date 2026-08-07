@@ -4,7 +4,6 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
 from src.common.utils import ensure_dir
 
 
@@ -12,7 +11,7 @@ def generate_report(prediction_result):
     """產出 CSV 報告並自動繪製工業級分析圖表"""
     ensure_dir("data/gold")
 
-    # 1. 產生原本的 CSV 紀錄
+    # 產生原本的 CSV 紀錄
     report = {
         "timestamp": datetime.now().isoformat(),
         "predicted_yield": prediction_result["predicted_yield"],
@@ -20,7 +19,7 @@ def generate_report(prediction_result):
     }
     pd.DataFrame([report]).to_csv("data/gold/report.csv", index=False)
 
-    # 2. 補齊 Matplotlib / Seaborn 視覺化實作
+    # 補齊 Matplotlib / Seaborn 視覺化實作
     factors = prediction_result["top_factors"]
     df_plot = pd.DataFrame(factors, columns=["Feature", "Importance"])
 
